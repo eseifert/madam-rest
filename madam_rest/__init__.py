@@ -1,10 +1,10 @@
+import madam
 from flask import Flask
-from madam import Madam
 
 app = Flask(__name__)
 app.from_object('config')
 
-asset_manager = Madam()
-asset_storage = app.config['ASSET_STORAGE']
+asset_manager = madam.Madam()
+asset_storage = madam.core.ShelveStorage(app.config['ASSET_STORAGE_PATH'])
 
 from madam_rest import views
