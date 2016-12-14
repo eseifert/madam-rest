@@ -30,11 +30,11 @@ def _serializable(value):
 
 @api.route('/assets/')
 def assets_retrieve():
-    assets = [asset_key for asset_key in asset_storage]
+    asset_keys = [asset_key for asset_key in asset_storage]
     return jsonify({
-        "data": assets,
+        "data": asset_keys,
         "meta": {
-            "count": len(assets)
+            "count": len(asset_keys)
         }
     })
 
