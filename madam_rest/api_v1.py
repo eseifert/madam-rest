@@ -41,11 +41,11 @@ def assets_retrieve():
 
 @api.route('/assets/<asset_key>/')
 def asset_retrieve(asset_key):
-    asset = asset_storage[asset_key]
+    asset, tags = asset_storage.get(asset_key)
     return jsonify({
         "links": {
-            "self": url_for(asset_retrieve, asset_key=asset_key),
-            "essence": url_for(asset_essence_retrieve, asset_key=asset_key)
+            "self": url_for('.asset_retrieve', asset_key=asset_key),
+            "essence": url_for('.asset_essence_retrieve', asset_key=asset_key)
         },
         "meta": _serializable(asset.metadata)
     })
@@ -53,5 +53,5 @@ def asset_retrieve(asset_key):
 
 @api.route('/assets/<asset_key>/essence')
 def asset_essence_retrieve(asset_key):
-    asset = asset_storage[asset_key]
+    asset, tags = asset_storage.get(asset_key)
     return send_file(asset.essence, mimetype=asset.mime_type)
