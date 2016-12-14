@@ -1,9 +1,13 @@
 from datetime import datetime
-from flask import jsonify, url_for
 from fractions import Fraction
+
+from flask import Blueprint, jsonify, send_file, url_for
 from frozendict import frozendict
 
-from madam_rest import app, asset_storage
+from madam_rest import asset_storage
+
+
+api = Blueprint('v1', __name__, url_prefix='/v1')
 
 
 def _serializable(value):
@@ -24,7 +28,7 @@ def _serializable(value):
     return value
 
 
-@app.route('/assets/')
+@api.route('/assets/')
 def assets_retrieve():
     assets = [asset_key for asset_key in asset_storage]
     return jsonify({
@@ -35,7 +39,7 @@ def assets_retrieve():
     })
 
 
-@app.route('/assets/<asset_key>')
+@api.route('/assets/<asset_key>/')
 def asset_retrieve(asset_key):
     asset = asset_storage[asset_key]
     return jsonify({
