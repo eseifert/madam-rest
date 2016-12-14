@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date, time
 from fractions import Fraction
 
 from flask import Blueprint, jsonify, send_file, url_for
@@ -21,7 +21,7 @@ def _serializable(value):
         return [_serializable(v) for v in value]
     elif isinstance(value, frozendict):
         return {k: _serializable(v) for k, v in value.items()}
-    elif isinstance(value, datetime):
+    elif isinstance(value, (datetime, date, time)):
         return value.isoformat()
     elif isinstance(value, Fraction):
         return float(value)
